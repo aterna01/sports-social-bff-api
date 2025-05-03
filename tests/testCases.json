@@ -1,0 +1,137 @@
+[
+  {
+    "user": "Olga",
+    "action": "register",
+    "description": "Olga should successfully register",
+    "HTTPVerb": "post",
+    "path": "/user/register",
+    "payload": {
+      "email": "olga_email@mail.com",
+      "password": "VeryStrongPass123!"
+    },
+    "statusCode": 200,
+    "expectedMsg": "{\"Message\":\"The new user with email olga_email@mail.com was successfully registered\"}",
+    "expectedRecordsInDB": 1,
+    "expectedPostsInteraction": []
+  },
+  {
+    "user": "Nick",
+    "action": "register",
+    "description": "Nick should successfully register",
+    "HTTPVerb": "post",
+    "path": "/user/register",
+    "payload": {
+      "email": "nick_email@mail.com",
+      "password": "VeryStrongPass123!"
+    },
+    "statusCode": 200,
+    "expectedMsg": "{\"Message\":\"The new user with email nick_email@mail.com was successfully registered\"}",
+    "expectedRecordsInDB": 1,
+    "expectedPostsInteraction": []
+  },
+  {
+    "user": "Mary",
+    "action": "register",
+    "description": "Mary should successfully register",
+    "HTTPVerb": "post",
+    "path": "/user/register",
+    "payload": {
+      "email": "mary_email@mail.com",
+      "password": "VeryStrongPass123!"
+    },
+    "statusCode": 200,
+    "expectedMsg": "{\"Message\":\"The new user with email mary_email@mail.com was successfully registered\"}",
+    "expectedRecordsInDB": 1,
+    "expectedPostsInteraction": []
+  },
+  {
+    "user": "Nestor",
+    "action": "register",
+    "description": "Nestor should successfully register",
+    "HTTPVerb": "post",
+    "path": "/user/register",
+    "payload": {
+      "email": "nestor_email@mail.com",
+      "password": "VeryStrongPass123!"
+    },
+    "statusCode": 200,
+    "expectedMsg": "{\"Message\":\"The new user with email nestor_email@mail.com was successfully registered\"}",
+    "expectedRecordsInDB": 1,
+    "expectedPostsInteraction": []
+  },
+  {
+    "user": "Nestor",
+    "action": "register",
+    "description": "Nestor should not be able to register with the same email",
+    "HTTPVerb": "post",
+    "path": "/user/register",
+    "payload": {
+      "email": "nestor_email@mail.com",
+      "password": "VeryStrongPass123!"
+    },
+    "statusCode": 409,
+    "expectedMsg": "{\"Message\":\"The user with email nestor_email@mail.com already exists\"}",
+    "expectedRecordsInDB": 1,
+    "expectedPostsInteraction": []
+  },
+  {
+    "user": "Olga",
+    "action": "login",
+    "description": "Olga should successfully login",
+    "HTTPVerb": "post",
+    "path": "/user/login",
+    "payload": {
+      "email": "olga_email@mail.com",
+      "password": "VeryStrongPass123!"
+    },
+    "statusCode": 200,
+    "expectedMsg": "{\"Message\":\"The new user with email olga_email@mail.com was successfully logined\"}",
+    "expectedNoOfPosts": 0,
+    "expectedPostsInteraction": []
+  },
+  {
+    "user": "Nick",
+    "action": "login",
+    "description": "Nick should successfully login",
+    "HTTPVerb": "post",
+    "path": "/user/login",
+    "payload": {
+      "email": "nick_email@mail.com",
+      "password": "VeryStrongPass123!"
+    },
+    "statusCode": 200,
+    "expectedMsg": "{\"Message\":\"The new user with email nick_email@mail.com was successfully login\"}",
+    "expectedNoOfPosts": 0,
+    "expectedPostsInteraction": []
+  },
+  {
+    "user": "Mary",
+    "action": "login",
+    "description": "Mary should successfully login",
+    "HTTPVerb": "post",
+    "path": "/user/login",
+    "payload": {
+      "email": "mary_email@mail.com",
+      "password": "VeryStrongPass123!"
+    },
+    "statusCode": 200,
+    "expectedMsg": "{\"Message\":\"The new user with email mary_email@mail.com was successfully login\"}",
+    "expectedNoOfPosts": 0,
+    "expectedPostsInteraction": []
+  },
+  {
+    "user": "Nestor",
+    "action": "login",
+    "description": "Nestor should successfully login",
+    "HTTPVerb": "post",
+    "path": "/user/login",
+    "payload": {
+      "email": "nestor_email@mail.com",
+      "password": "VeryStrongPass123!"
+    },
+    "statusCode": 200,
+    "expectedMsg": "{\"Message\":\"The new user with email nestor_email@mail.com was successfully login\"}",
+    "expectedNoOfPosts": 0,
+    "expectedPostsInteraction": []
+  }
+]
