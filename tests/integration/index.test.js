@@ -1,7 +1,6 @@
-const { describe, it, beforeAll, afterAll } = require("@jest/globals");
-const server = require("../src/index");
+const server = require("../../src/index");
 const testCases = require("./testCases.json");
-const { closeClient, dropCollection} = require("../src/dbManager");
+const { closeClient, dropCollection} = require("../../src/dbManager");
 const {
   registerAssert,
   loginAssert,
@@ -13,9 +12,6 @@ const actionMapper = {
   login: loginAssert,
   failAuth: commonAssert,
   main: commonAssert,
-  // createPost: postCreateAssert,
-  // getPosts: postGetAssert,
-  // interactPost: postInteractAssert,
 };
 
 describe("Server testing", () => {

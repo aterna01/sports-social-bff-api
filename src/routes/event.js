@@ -57,10 +57,7 @@ eventRouter.post("/participate", verifyJWT, validateEventParticipation, async (r
       "time": time,
       "location": location,
       "postCode": postCode,
-      // "owner": email
     }
-
-    console.log("/participate searchQueryyyyy: ", searchQuery)
 
     const dbEvent = (await find("events", searchQuery))[0]
     if(!dbEvent) {
@@ -81,7 +78,7 @@ eventRouter.post("/participate", verifyJWT, validateEventParticipation, async (r
   
     return res.status(200).send({"Message": `The new participant ${email} registered for the event ${title}`});
   } catch(err) {
-    console.error("Error during interaction with a event: ", err)
+    // console.error("Error during interaction with a event: ", err)
     return res.status(500).send({"Error": "An internal error occurred, please try again later"}) 
   }
 })
@@ -93,8 +90,6 @@ eventRouter.get("/get", validateGetEvent, async (req, res) => {  //search by spo
     ...(sportType && {sportType}),
     ...(postCodeMajor && {postCodeMajor})
   }
-
-  console.log("searchQueryyyyy: ", searchQuery)
 
   const dbEvents = await find("events", searchQuery)
 

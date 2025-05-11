@@ -23,7 +23,7 @@ authRouter.post("/register", validateUser, async (req, res) => {
     await insertOne("users", user);
     return res.status(200).send({"Message": `The new user with email ${req.body.email} was successfully registered`});
   } catch(err) {
-    console.error("Error during user registration:", err);
+    // console.error("Error during user registration:", err);
     return res.status(500).send({"Error": "An internal error occurred, please try again later"}) 
   }
 })
@@ -52,7 +52,7 @@ authRouter.post("/login", validateUser, async (req, res) => {
     }
 
   } catch(err) {
-    console.error("Error during login: ", err)
+    // console.error("Error during login: ", err)
     return res.status(500).send({"Error": "An internal error occurred, please try again later"}) 
   }
 })

@@ -1,8 +1,9 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config()
+const config = require('./config.js')
 
-const dbName = process.env.DB_NAME
-const url = process.env.MONGO_DB_CONN_STRING
+const dbName = config.DB_NAME
+const url = config.MONGO_DB_CONN_STRING
 
 let client = null;
 

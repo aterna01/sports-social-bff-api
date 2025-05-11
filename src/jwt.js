@@ -1,9 +1,9 @@
 const jsonwebtoken = require('jsonwebtoken')
-require('dotenv').config()
+const config = require('./config.js')
 
 async function generateJWT(payload) {
   return new Promise((resolve, reject) => {
-    jsonwebtoken.sign(payload, process.env.JWT_SECRET, {"expiresIn": "1h"}, (err, token) => {
+    jsonwebtoken.sign(payload, config.JWT_SECRET, {"expiresIn": "1h"}, (err, token) => {
       if(err) {
         return reject(err);
       }
@@ -21,7 +21,7 @@ async function verifyJWT(req, res, next) {
 
   try {
     const decodedToken = await new Promise((resolve, reject) => {    
-      jsonwebtoken.verify(jwtToken, process.env.JWT_SECRET, (err, decodedToken) => {
+      jsonwebtoken.verify(jwtToken, config.JWT_SECRET, (err, decodedToken) => {
         if (err) {
           return reject(err);
         }
@@ -32,7 +32,7 @@ async function verifyJWT(req, res, next) {
     req.user = decodedToken
     next()
   } catch(err) {
-    console.error("JWT verification error:", err);
+    // console.error("JWT verification error:", err);
     return res.status(401).send({"Message": "Invalid or expired token."})
   }
   
