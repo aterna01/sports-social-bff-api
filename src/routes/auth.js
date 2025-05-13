@@ -6,7 +6,7 @@ const {insertOne, find} =require("../dbManager")
 const {validateUser} = require("../schema")
 const {generateJWT} = require("../jwt")
 const logger = require("../logger.js");
-const { log } = require('winston');
+
 
 authRouter.post("/register", validateUser, async (req, res) => {
   try {
