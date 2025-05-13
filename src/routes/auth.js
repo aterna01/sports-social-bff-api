@@ -5,6 +5,8 @@ const bcrypt = require('bcryptjs');
 const {insertOne, find} =require("../dbManager")
 const {validateUser} = require("../schema")
 const {generateJWT} = require("../jwt")
+const logger = require("../logger.js");
+const { log } = require('winston');
 
 authRouter.post("/register", validateUser, async (req, res) => {
   try {
@@ -21,9 +23,10 @@ authRouter.post("/register", validateUser, async (req, res) => {
     }
 
     await insertOne("users", user);
+    logger.debug("User registered:", user)
     return res.status(200).send({"Message": `The new user with email ${req.body.email} was successfully registered`});
   } catch(err) {
-    // console.error("Error during user registration:", err);
+    logger.error("Error during user registration:", err)
     return res.status(500).send({"Error": "An internal error occurred, please try again later"}) 
   }
 })
@@ -35,6 +38,7 @@ authRouter.post("/login", validateUser, async (req, res) => {
 
     const dbRecord = (await find("users", {email}))[0]
     if (!dbRecord) {
+      logger.debug("Login attempt with non-existing user:", email)
       return res.status(401).send({"Error": "Invalid username or password."})
     }
 
@@ -44,15 +48,17 @@ authRouter.post("/login", validateUser, async (req, res) => {
         const tokenPayload = { email: dbRecord.email, id: dbRecord.id };
         const authToken = await generateJWT(tokenPayload)
         return res.status(200).send({authToken})
-      } catch(_err) {
+      } catch(err) {
+        logger.error("Error during JWT generation:", err)
         return res.status(500).send({"Error": "An internal error occurred, please try again later"})
       }
     } else {
+      logger.debug("Login attempt with invalid password:", email)
       return res.status(401).send({"Error": "Invalid username or password."})
     }
 
   } catch(err) {
-    // console.error("Error during login: ", err)
+    logger.error("Error during login:", err)
     return res.status(500).send({"Error": "An internal error occurred, please try again later"}) 
   }
 })

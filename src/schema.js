@@ -1,4 +1,6 @@
 const Joi = require("joi")
+const logger = require("./logger.js")
+
 
 const userSchema = Joi.object({
   "email": Joi.string().email().required(),
@@ -34,32 +36,40 @@ const getEventSchema = Joi.object({
 function validateUser(req, res, next) {
   const {error} = userSchema.validate(req.body);
   if (error) {
+    logger.debug("User validation failed:", error.details)
     return res.status(400).send({"Error":error.details})
   }
+  logger.debug("User validation passed:")
   next()
 }
 
 function validateNewEvent(req, res, next) {
   const {error} =  newEventSchema.validate(req.body)
   if (error) {
+    logger.debug("New event validation failed:", error.details)
     return res.status(400).send({"Error":error.details})
   }
+  logger.debug("New event validation passed:")
   next()
 }
 
 function validateEventParticipation(req, res, next) {
   const {error} = eventParticipationSchema.validate(req.body)
   if (error) {
+    logger.debug("Event participation validation failed:", error.details)
     return res.status(400).send({"Error":error.details})
   }
+  logger.debug("Event participation validation passed:")
   next()
 }
 
 function validateGetEvent(req, res, next) {
   const {error} = getEventSchema.validate(req.query)
   if (error) {
+    logger.debug("Get event validation failed:", error.details)
     return res.status(400).send({"Error":error.details})
   }
+  logger.debug("Get event validation passed:")
   next()
 }
 
