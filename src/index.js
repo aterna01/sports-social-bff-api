@@ -3,6 +3,7 @@ const cors = require('cors');
 const {authRouter} = require("./routes/auth")
 const {eventRouter} = require("./routes/event")
 const config = require('./config.js')
+const logger = require("./logger.js")
 
 const app = express()
 
@@ -16,7 +17,7 @@ app.use("/user", authRouter)
 app.use("/event", eventRouter)
 
 const server = app.listen(5000, () => {
-  console.log('Server is up and running on port 5000');
+  logger.info('Server is up and running on port 5000');
 });
 
 

@@ -3,6 +3,8 @@ const { insertOne, find, replaceOne } = require('../dbManager');
 const {validateNewEvent, validateEventParticipation, validateGetEvent} = require("../schema")
 const {verifyJWT} =require("../jwt")
 const eventRouter = express.Router();
+const logger = require("../logger.js")
+
 
 eventRouter.post("/create", verifyJWT, validateNewEvent, async (req, res) => {
   try {
@@ -33,13 +35,15 @@ eventRouter.post("/create", verifyJWT, validateNewEvent, async (req, res) => {
 
     const dbEvent = (await find("events", searchQuery))[0]
     if(dbEvent) {
+      logger.debug("Event creation attempt with existing event:", event)
       return res.status(404).send({"Error": "This event already exists"})
     }
   
     await insertOne("events", event)
-  
+    logger.debug("Event created:", event)
     return res.status(200).send({"Message": `The new event with title ${event.title} was successfully created`});
-  } catch(_err) {
+  } catch(err) {
+    logger.error("Error during event creation:", err)
     return res.status(500).send({"Error": "An internal error occurred, please try again later"}) 
   }
 })
@@ -61,24 +65,27 @@ eventRouter.post("/participate", verifyJWT, validateEventParticipation, async (r
 
     const dbEvent = (await find("events", searchQuery))[0]
     if(!dbEvent) {
+      logger.error("Event participation attempt with non-existing event:", searchQuery, email)
       return res.status(404).send({"Error": `The event with provided title ${title} does not exist`})
     }
 
     if(dbEvent.participants.includes(email)) {
+      logger.debug("Event participation attempt with existing participant:", searchQuery, email)
       return res.status(404).send({"Error": "The user is already registered as partipant for this event"}) 
     }
 
     if(new Date(dbEvent.date) < new Date()) {
+      logger.debug("Event participation attempt with past event:", searchQuery, email)
       return res.status(404).send({"Error": "The event is in the past so no participation is allowed"}) 
     }
 
     dbEvent.participants.push(email)
 
     await replaceOne("events", searchQuery, dbEvent)
-  
+    logger.debug("The new participant registered for the event", title, email)
     return res.status(200).send({"Message": `The new participant ${email} registered for the event ${title}`});
   } catch(err) {
-    // console.error("Error during interaction with a event: ", err)
+    logger.error("Error during interaction with a event: ", err)
     return res.status(500).send({"Error": "An internal error occurred, please try again later"}) 
   }
 })
@@ -92,7 +99,7 @@ eventRouter.get("/get", validateGetEvent, async (req, res) => {  //search by spo
   }
 
   const dbEvents = await find("events", searchQuery)
-
+  logger.debug("Events found:", dbEvents)
   res.status(200).send({"Events": dbEvents})
 })
 
